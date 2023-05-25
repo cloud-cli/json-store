@@ -7,7 +7,7 @@ jobs:
   build:
     uses: cloud-cli/workflows/.github/workflows/docker-ghcr-build.yml@main
     with:
-      name: homebots/json-store
+      name: cloud-cli/json-store
       baseImage: cloud-cli/node:latest
       defaultBranch: main
       type: node
