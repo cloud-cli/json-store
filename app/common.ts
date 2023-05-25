@@ -1,4 +1,4 @@
-export const LOG = (...args: any[]) => console.log(`[${new Date().toISOString()}] `, ...args);
+export const LOG = (...args: any[]) => process.env.DEBUG && console.log(`[${new Date().toISOString()}] `, ...args);
 
 export function guessType(value) {
   const number = /^-?\d*\.?\d*$/;

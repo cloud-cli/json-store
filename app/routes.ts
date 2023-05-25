@@ -1,6 +1,5 @@
 import * as express from 'express';
 import * as crypto from 'crypto';
-import * as Path from 'path';
 import { InMemoryAdapter } from './in-memory-adapter';
 import { FileAdapter } from './file-adapter';
 import { Adapter } from './adapter';
@@ -67,7 +66,7 @@ router.put(routeMatcher, checkContentType, async (req, res) => {
   LOG('PUT', req.path, req.body);
   try {
     adapter.put(req.path, req.body);
-    res.status(200).send('');
+    res.status(202).send('');
   } catch {
     res.status(500).send('');
   }
@@ -77,7 +76,7 @@ router.patch(routeMatcher, checkContentType, async (req, res) => {
   LOG('PATCH', req.path, req.body);
   try {
     await adapter.patch(req.path, req.body)
-    res.status(200).send('');
+    res.status(202).send('');
   } catch {
     res.status(500).send('');
   }
@@ -87,7 +86,7 @@ router.delete(routeMatcher, async (req, res) => {
   LOG('DELETE', req.path);
   try {
     await adapter.delete(req.path);
-    res.status(200).send('');
+    res.status(204).send('');
   } catch {
     res.status(500).send('');
   }
