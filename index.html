@@ -26,15 +26,21 @@
 
   <body>
     <main class="article">%content%</main>
-    <script>
+    <script type="module">
       import { toHTML } from "https://markdown.jsfn.run/index.mjs";
 
-      window.addEventListener("DOMContentLoaded", async () => {
+      async function render() {
         const main = document.querySelector("main");
         const html = await toHTML(main.innerHTML.trim());
 
         main.innerHTML = html.replace(/&amp;/g, "&");
-      });
+      }
+
+      if (document.readyState === "complete") {
+        render();
+      } else {
+        window.addEventListener("DOMContentLoaded", render);
+      }
     </script>
   </body>
 </html>
