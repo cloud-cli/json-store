@@ -1,5 +1,5 @@
-import * as express from "express";
-import * as crypto from "crypto";
+import express from "express";
+import { randomBytes, createHash } from "crypto";
 import { LOG } from "./common.js";
 import { Adapter } from "./adapter.js";
 import { InMemoryAdapter } from "./in-memory-adapter.js";
@@ -37,8 +37,8 @@ const router = express.Router();
 const routeMatcher = /^\/[0-9a-f]{64}/;
 
 router.get("/new", (_, res) => {
-  const seed = crypto.randomBytes(64);
-  const hash = crypto.createHash("sha256").update(seed).digest("hex");
+  const seed = randomBytes(64);
+  const hash = createHash("sha256").update(seed).digest("hex");
   return res.send({ id: hash });
 });
 

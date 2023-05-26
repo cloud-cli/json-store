@@ -1,15 +1,16 @@
-import * as FS from "node:fs";
-import * as Path from "node:path";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import process from 'node:process';
 import express from "express";
-import * as bodyParser from "body-parser";
-import * as cors from "cors";
+import bodyParser from 'body-parser';
+import cors from 'cors';
 import apiRoutes from "./routes.js";
 import { LOG } from "./common.js";
 
-const readme = FS.readFileSync(Path.join(process.cwd(), "README.md")).toString(
+const readme = readFileSync(join(process.cwd(), "README.md")).toString(
   "utf8"
 );
-const index = FS.readFileSync(Path.join(process.cwd(), "index.html"))
+const index = readFileSync(join(process.cwd(), "index.html"))
   .toString("utf8")
   .replace("%content%", readme);
 
