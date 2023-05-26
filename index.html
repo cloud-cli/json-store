@@ -1,76 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="JSON storage" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Free JSON storage service" />
-    <title>JSON storage</title>
+    <title>JSON store</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css"
+      integrity="sha512-4xo8blKMVCiXpTaLzQSLSw3KFOVPWhm/TRtuPVc4WG6kUgjH6J03IBuG7JZPkcWMxJ5huwaBpOpnwYElP/m6wg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://codr.blog/main.css" />
     <style>
-        * {
-            box-sizing: border-box;
-        }
+      :root {
+        --js-primary: #daae2b;
+      }
 
-        html {
-            font-size: 100%;
-        }
-
-        body {
-            background: #daae2b;
-            font-family: sans-serif;
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 4rem 6rem;
-            background-color: white;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
-        }
-
-        textarea {
-            font-family: monospace;
-            padding: 1rem;
-            min-height: 290px;
-            width: 100%;
-            border: 0;
-            background-color: #eee;
-        }
-
-        code {
-            background: #291919;
-            color: #eee;
-            border-radius: 3px;
-            white-space: pre-wrap;
-            display: inline-block;
-            padding: .5rem;
-        }
-
-        pre > code {
-            display: block;
-            padding: 1rem;
-        }
-
-        hr {
-            margin: 3rem 0;
-            border: 0;
-            height: 2px;
-            background-color: rgba(9, 30, 66, 0.08);
-        }
-
-        .copied {
-            display: none;
-        }
-
-        .text {
-            white-space: pre-wrap;
-        }
+      main {
+        padding: 2rem 4rem;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <main class="text">%content%</main>
-</body>
+  <body>
+    <main class="article">%content%</main>
+    <script>
+      import { toHTML } from "https://markdown.jsfn.run/index.mjs";
 
+      window.addEventListener("DOMContentLoaded", async () => {
+        const main = document.querySelector("main");
+        const html = await toHTML(main.innerHTML.trim());
+
+        main.innerHTML = html.replace(/&amp;/g, "&");
+      });
+    </script>
+  </body>
 </html>

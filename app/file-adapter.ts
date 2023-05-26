@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { randomBytes, createHash } from 'crypto'
 import { Adapter } from "./adapter.js";
 import { InMemoryAdapter } from "./in-memory-adapter.js";
 import { splitHashAndPath } from "./common.js";
@@ -11,7 +12,7 @@ export class FileAdapter implements Adapter {
     writeFileSync(join(this.dataFolder, hash), JSON.stringify(storage));
   }
 
-  private createInMemoryBuffer(hash) {
+  private createInMemoryAdapter(hash) {
     const filePath = join(this.dataFolder, hash);
     let content = {};
 
@@ -24,14 +25,14 @@ export class FileAdapter implements Adapter {
 
   get(key: string) {
     const { hash, path } = splitHashAndPath(key);
-    const buffer = this.createInMemoryBuffer(hash);
+    const buffer = this.createInMemoryAdapter(hash);
 
     return buffer.get(path);
   }
 
   patch(key, data) {
     const { hash, path } = splitHashAndPath(key);
-    const buffer = this.createInMemoryBuffer(hash);
+    const buffer = this.createInMemoryAdapter(hash);
 
     const output = buffer.patch(path, data);
     this.writeContent(hash, buffer.content);
@@ -40,16 +41,25 @@ export class FileAdapter implements Adapter {
 
   post(key, data) {
     const { hash, path } = splitHashAndPath(key);
-    const buffer = this.createInMemoryBuffer(hash);
+    const uid = createHash('shas256').update(randomBytes(16)).digest('hex');
+    const buffer = this.createInMemoryAdapter(hash);
 
-    const output = buffer.post(path, data);
+    data = { ...data, uid };
+
+    const output = buffer.post(path + '/' + uid, data);
     this.writeContent(hash, buffer.content);
     return output;
   }
 
   put(key, data) {
     const { hash, path } = splitHashAndPath(key);
-    const buffer = this.createInMemoryBuffer(hash);
+    const [_, uid] = path.split('/');
+
+    if (!uid) {
+      return Promise.reject(new Error('BAD_REQUEST'));
+    }
+
+    const buffer = this.createInMemoryAdapter(hash);
 
     const output = buffer.put(path, data);
     this.writeContent(hash, buffer.content);
@@ -58,7 +68,7 @@ export class FileAdapter implements Adapter {
 
   delete(key) {
     const { hash, path } = splitHashAndPath(key);
-    const buffer = this.createInMemoryBuffer(hash);
+    const buffer = this.createInMemoryAdapter(hash);
 
     const output = buffer.delete(path);
     this.writeContent(hash, buffer.content);

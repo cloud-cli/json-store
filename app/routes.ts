@@ -67,11 +67,11 @@ router.post(routeMatcher, checkContentType, async (req, res) => {
 router.put(routeMatcher, checkContentType, async (req, res) => {
   LOG("PUT", req.path, req.body);
   try {
-    adapter.put(req.path, req.body);
+    await adapter.put(req.path, req.body);
     res.status(202).send("");
   } catch (error) {
     LOG(error);
-    res.status(500).send("");
+    res.status(error.message === "BAD_REQUEST" ? 400 : 500).send("");
   }
 });
 
