@@ -1,17 +1,17 @@
+import * as FS from 'node:fs';
+import * as Path from 'node:path';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import * as FS from 'fs';
-import * as Path from 'path';
-import apiRoutes from './routes';
-import { LOG } from './common';
+import apiRoutes from './routes.js';
+import { LOG } from './common.js';
 
 const readme = FS.readFileSync(Path.join(process.cwd(), 'README.md')).toString('utf8');
 const index = FS.readFileSync(Path.join(process.cwd(), 'index.html'))
   .toString('utf8')
   .replace('%content%', readme);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 const app = express();
 
 app.use(bodyParser.json({ strict: false }));

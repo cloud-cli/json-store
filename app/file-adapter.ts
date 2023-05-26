@@ -1,8 +1,8 @@
-import * as fs from 'fs';
-import * as Path from 'path';
-import { Adapter } from './adapter';
-import { InMemoryAdapter } from './in-memory-adapter';
-import { splitHashAndPath } from './common';
+import * as fs from 'node:fs';
+import * as Path from 'node:path';
+import { Adapter } from './adapter.js';
+import { InMemoryAdapter } from './in-memory-adapter.js';
+import { splitHashAndPath } from './common.js';
 
 export class FileAdapter implements Adapter {
   constructor(private dataFolder: string) {}

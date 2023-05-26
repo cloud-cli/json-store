@@ -1,6 +1,6 @@
-import { Adapter } from "./adapter";
 import { get, merge } from 'lodash';
-import { set } from "./common";
+import { Adapter } from "./adapter.js";
+import { set } from "./common.js";
 
 const notFound = new Error('NOT_FOUND');
 const pathReplace = (path: string) => path.split('/').join('.').replace(/^\.|\.$/g, '');

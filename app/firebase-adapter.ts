@@ -1,6 +1,6 @@
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import { Database, getDatabase, ref, get, set, update, remove } from 'firebase/database';
-import { Adapter } from './adapter';
+import { Adapter } from './adapter.js';
 
 export class FirebaseAdapter implements Adapter {
   app: FirebaseApp;

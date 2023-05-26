@@ -1,10 +1,10 @@
 import * as express from 'express';
 import * as crypto from 'crypto';
-import { InMemoryAdapter } from './in-memory-adapter';
-import { FileAdapter } from './file-adapter';
-import { Adapter } from './adapter';
-import { LOG } from './common';
-import { FirebaseAdapter } from './firebase-adapter';
+import { LOG } from './common.js';
+import { Adapter } from './adapter.js';
+import { InMemoryAdapter } from './in-memory-adapter.js';
+import { FileAdapter } from './file-adapter.js';
+import { FirebaseAdapter } from './firebase-adapter.js';
 
 const storageAdapter = process.env.STORAGE || 'memory';
 let adapter: Adapter;
