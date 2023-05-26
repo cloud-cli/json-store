@@ -41,7 +41,7 @@ export class FileAdapter implements Adapter {
 
   post(key, data) {
     const { hash, path } = splitHashAndPath(key);
-    const uid = createHash('shas256').update(randomBytes(16)).digest('hex');
+    const uid = createHash('sha256').update(randomBytes(16)).digest('hex');
     const buffer = this.createInMemoryAdapter(hash);
 
     data = { ...data, uid };
