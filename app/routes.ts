@@ -48,6 +48,7 @@ router.get(routeMatcher, async (req, res) => {
     const result = await adapter.get(req.path);
     res.status(200).send(result);
   } catch (error) {
+    LOG(error);
     res.status(error.message === "NOT_FOUND" ? 404 : 400).send("");
   }
 });
@@ -57,7 +58,8 @@ router.post(routeMatcher, checkContentType, async (req, res) => {
   try {
     await adapter.post(req.path, req.body);
     res.status(201).send("");
-  } catch {
+  } catch (error) {
+    LOG(error);
     res.status(500).send("");
   }
 });
@@ -67,7 +69,8 @@ router.put(routeMatcher, checkContentType, async (req, res) => {
   try {
     adapter.put(req.path, req.body);
     res.status(202).send("");
-  } catch {
+  } catch (error) {
+    LOG(error);
     res.status(500).send("");
   }
 });
@@ -77,7 +80,8 @@ router.patch(routeMatcher, checkContentType, async (req, res) => {
   try {
     await adapter.patch(req.path, req.body);
     res.status(202).send("");
-  } catch {
+  } catch (error) {
+    LOG(error);
     res.status(500).send("");
   }
 });
@@ -87,7 +91,8 @@ router.delete(routeMatcher, async (req, res) => {
   try {
     await adapter.delete(req.path);
     res.status(204).send("");
-  } catch {
+  } catch (error) {
+    LOG(error);
     res.status(500).send("");
   }
 });
