@@ -1,4 +1,4 @@
-import { get, merge } from 'lodash';
+import { get, merge } from 'lodash-es';
 import { Adapter } from "./adapter.js";
 import { set } from "./common.js";
 

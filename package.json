@@ -1,8 +1,8 @@
 {
-  "name": "@homebots/jsonstore",
-  "version": "1.0.0",
+  "name": "@cloud-cli/json",
+  "version": "0.0.0",
   "license": "MIT",
-  "main": "index.js",
+  "main": "./index.js",
   "type": "module",
   "scripts": {
     "ci": "npm i && npm run build",
@@ -13,7 +13,7 @@
     "cors": "^2.8.4",
     "express": "^4.17.1",
     "firebase": "^9.22.1",
-    "lodash": "^4.17.19"
+    "lodash-es": "^4.17.19"
   },
   "devDependencies": {
     "@cloud-cli/typescript-config": "^1.0.1",
