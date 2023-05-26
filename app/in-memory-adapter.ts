@@ -47,7 +47,7 @@ export class InMemoryAdapter implements Adapter {
   }
 
   delete(path) {
-    set(this.content, pathReplace(path), null);
+    set(this.content, pathReplace(path), undefined);
     return Promise.resolve("");
   }
 }

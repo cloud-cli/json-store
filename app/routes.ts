@@ -9,7 +9,7 @@ import { FirebaseAdapter } from "./firebase-adapter.js";
 const storageAdapter = process.env.STORAGE || "memory";
 let adapter: Adapter;
 
-LOG("Adapter:", storageAdapter);
+LOG("Using adapter:", storageAdapter);
 
 switch (storageAdapter) {
   case "memory":

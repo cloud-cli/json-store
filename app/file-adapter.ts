@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { randomBytes, createHash } from 'crypto'
+import { randomBytes, createHash } from "crypto";
 import { Adapter } from "./adapter.js";
 import { InMemoryAdapter } from "./in-memory-adapter.js";
 import { splitHashAndPath } from "./common.js";
@@ -30,7 +30,7 @@ export class FileAdapter implements Adapter {
     return buffer.get(path);
   }
 
-  patch(key, data) {
+  patch(key: string, data: any) {
     const { hash, path } = splitHashAndPath(key);
     const buffer = this.createInMemoryAdapter(hash);
 
@@ -39,24 +39,37 @@ export class FileAdapter implements Adapter {
     return output;
   }
 
-  post(key, data) {
-    const { hash, path } = splitHashAndPath(key);
-    const uid = createHash('sha256').update(randomBytes(16)).digest('hex');
+  post(key: string, data: any) {
+    let { hash, path } = splitHashAndPath(key);
+    const pathParts = path.split("/");
+
+    if (!pathParts.length || pathParts.length > 2) {
+      return Promise.reject(new Error("BAD_REQUEST"));
+    }
+
+    let [_, uid] = pathParts;
+
+    if (!uid) {
+      uid = createHash("sha256")
+        .update(randomBytes(16))
+        .digest("hex")
+        .slice(0, 16);
+      path += "/" + uid;
+    }
+
     const buffer = this.createInMemoryAdapter(hash);
+    const output = buffer.post(path, data);
 
-    data = { ...data, uid };
-
-    const output = buffer.post(path + '/' + uid, data);
     this.writeContent(hash, buffer.content);
     return output;
   }
 
-  put(key, data) {
+  put(key: string, data: any) {
     const { hash, path } = splitHashAndPath(key);
-    const [_, uid] = path.split('/');
+    const [_, uid] = path.split("/");
 
     if (!uid) {
-      return Promise.reject(new Error('BAD_REQUEST'));
+      return Promise.reject(new Error("BAD_REQUEST"));
     }
 
     const buffer = this.createInMemoryAdapter(hash);
@@ -66,7 +79,7 @@ export class FileAdapter implements Adapter {
     return output;
   }
 
-  delete(key) {
+  delete(key: string) {
     const { hash, path } = splitHashAndPath(key);
     const buffer = this.createInMemoryAdapter(hash);
 
