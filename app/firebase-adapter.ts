@@ -1,38 +1,37 @@
-import * as firebase from 'firebase';
+import { FirebaseApp, initializeApp } from 'firebase/app';
+import { Database, getDatabase, ref, get, set, update, remove } from 'firebase/database';
 import { Adapter } from './adapter';
 
 export class FirebaseAdapter implements Adapter {
-  app: firebase.app.App;
+  app: FirebaseApp;
+  firebase: Database;
 
   constructor(config: object) {
     if (!config) {
       throw new Error('Config is missing');
     }
 
-    this.app = firebase.initializeApp(config);
-  }
-
-  get firebase() {
-    return firebase.database(this.app);
+    this.app = initializeApp(config);
+    this.firebase = getDatabase(this.app);
   }
 
   async get(path: string) {
-    const snapshot = await this.firebase.ref(path).once('value');
+    const snapshot = await get(ref(this.firebase, path));
     return snapshot.val();
   }
 
   post(path: string, data: any) {
-    return this.firebase.ref(path).set(data);
+    return set(ref(this.firebase, path), data);
   }
 
   put(path: string, data: any) {
-    return this.firebase.ref().update({
+    return update(ref(this.firebase), {
       [path]: data,
-    })
+    });
   }
 
   delete(path: string) {
-    return this.firebase.ref(path).remove()
+    return remove(ref(this.firebase, path));
   }
 
   patch() {

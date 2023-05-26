@@ -15,6 +15,7 @@
     "lodash": "^4.17.19"
   },
   "devDependencies": {
+    "@cloud-cli/typescript-config": "^1.0.1",
     "@types/node": "^20.2.4",
     "typescript": "^5.0.4"
   }
