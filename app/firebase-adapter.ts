@@ -1,6 +1,14 @@
-import { FirebaseApp, initializeApp } from 'firebase/app';
-import { Database, getDatabase, ref, get, set, update, remove } from 'firebase/database';
-import { Adapter } from './adapter.js';
+import { FirebaseApp, initializeApp } from "firebase/app";
+import {
+  Database,
+  getDatabase,
+  ref,
+  get,
+  set,
+  update,
+  remove,
+} from "firebase/database";
+import { Adapter } from "./adapter.js";
 
 export class FirebaseAdapter implements Adapter {
   app: FirebaseApp;
@@ -8,7 +16,7 @@ export class FirebaseAdapter implements Adapter {
 
   constructor(config: object) {
     if (!config) {
-      throw new Error('Config is missing');
+      throw new Error("Config is missing");
     }
 
     this.app = initializeApp(config);

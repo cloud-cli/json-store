@@ -1,14 +1,18 @@
-import * as fs from 'node:fs';
-import * as Path from 'node:path';
-import { Adapter } from './adapter.js';
-import { InMemoryAdapter } from './in-memory-adapter.js';
-import { splitHashAndPath } from './common.js';
+import * as fs from "node:fs";
+import * as Path from "node:path";
+import { Adapter } from "./adapter.js";
+import { InMemoryAdapter } from "./in-memory-adapter.js";
+import { splitHashAndPath } from "./common.js";
 
 export class FileAdapter implements Adapter {
   constructor(private dataFolder: string) {}
 
   writeContent(hash, storage) {
-    fs.writeFile(Path.join(this.dataFolder, hash), JSON.stringify(storage), () => {});
+    fs.writeFile(
+      Path.join(this.dataFolder, hash),
+      JSON.stringify(storage),
+      () => {}
+    );
   }
 
   private createInMemoryBuffer(hash) {
@@ -16,7 +20,7 @@ export class FileAdapter implements Adapter {
     let content = {};
 
     if (fs.existsSync(filePath)) {
-      content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      content = JSON.parse(fs.readFileSync(filePath, "utf8"));
     }
 
     return new InMemoryAdapter(content);
@@ -64,4 +68,4 @@ export class FileAdapter implements Adapter {
     this.writeContent(hash, buffer.content);
     return output;
   }
-};
+}

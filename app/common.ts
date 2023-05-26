@@ -1,25 +1,26 @@
-export const LOG = (...args: any[]) => process.env.DEBUG && console.log(`[${new Date().toISOString()}] `, ...args);
+export const LOG = (...args: any[]) =>
+  process.env.DEBUG && console.log(`[${new Date().toISOString()}] `, ...args);
 
 export function guessType(value) {
   const number = /^-?\d*\.?\d*$/;
   const boolean = /(true|false)/;
 
   if (number.test(value)) {
-      return Number;
+    return Number;
   }
 
   if (boolean.test(value)) {
-      return JSON.parse;
+    return JSON.parse;
   }
 
-  return ((v) => v);
+  return (v) => v;
 }
 
 export function convert(value, type) {
   const typemap = {
-      'number': Number,
-      'boolean': Boolean,
-      'string': String,
+    number: Number,
+    boolean: Boolean,
+    string: String,
   };
   const converter = typemap[type] || guessType(value);
   return converter(value);
@@ -35,12 +36,12 @@ export function splitHashAndPath(url: string) {
 }
 
 export function set(target, path, value) {
-  const segments = path.split('.');
+  const segments = path.split(".");
   const property = segments.pop();
 
   let segment: string;
 
-  while (segment = segments.shift()) {
+  while ((segment = segments.shift())) {
     if (target[segment] === undefined) {
       target[segment] = {};
     }

@@ -1,33 +1,33 @@
-import * as express from 'express';
-import * as crypto from 'crypto';
-import { LOG } from './common.js';
-import { Adapter } from './adapter.js';
-import { InMemoryAdapter } from './in-memory-adapter.js';
-import { FileAdapter } from './file-adapter.js';
-import { FirebaseAdapter } from './firebase-adapter.js';
+import * as express from "express";
+import * as crypto from "crypto";
+import { LOG } from "./common.js";
+import { Adapter } from "./adapter.js";
+import { InMemoryAdapter } from "./in-memory-adapter.js";
+import { FileAdapter } from "./file-adapter.js";
+import { FirebaseAdapter } from "./firebase-adapter.js";
 
-const storageAdapter = process.env.STORAGE || 'memory';
+const storageAdapter = process.env.STORAGE || "memory";
 let adapter: Adapter;
 
-LOG('Adapter:', storageAdapter);
+LOG("Adapter:", storageAdapter);
 
 switch (storageAdapter) {
-  case 'memory':
+  case "memory":
     adapter = new InMemoryAdapter();
     break;
 
-  case 'file':
+  case "file":
     adapter = new FileAdapter(process.env.DATA_DIR);
     break;
 
-  case 'firebase':
+  case "firebase":
     adapter = new FirebaseAdapter(JSON.parse(process.env.FIREBASE_CONFIG));
     break;
 }
 
 function checkContentType(req, res, next) {
-  if (!req.is('application/json')) {
-    return res.status(400).send('Invalid content type');
+  if (!req.is("application/json")) {
+    return res.status(400).send("Invalid content type");
   }
 
   next();
@@ -36,59 +36,59 @@ function checkContentType(req, res, next) {
 const router = express.Router();
 const routeMatcher = /^\/[0-9a-f]{64}/;
 
-router.get('/new', (_, res) => {
+router.get("/new", (_, res) => {
   const seed = crypto.randomBytes(64);
-  const hash = crypto.createHash('sha256').update(seed).digest('hex');
+  const hash = crypto.createHash("sha256").update(seed).digest("hex");
   return res.send({ id: hash });
 });
 
 router.get(routeMatcher, async (req, res) => {
-  LOG('GET', req.path);
+  LOG("GET", req.path);
   try {
-    const result = await adapter.get(req.path)
+    const result = await adapter.get(req.path);
     res.status(200).send(result);
   } catch (error) {
-    res.status(error.message === 'NOT_FOUND' ? 404 : 400).send('');
+    res.status(error.message === "NOT_FOUND" ? 404 : 400).send("");
   }
 });
 
 router.post(routeMatcher, checkContentType, async (req, res) => {
-  LOG('POST', req.path, req.body);
+  LOG("POST", req.path, req.body);
   try {
     await adapter.post(req.path, req.body);
-    res.status(201).send('');
+    res.status(201).send("");
   } catch {
-    res.status(500).send('');
+    res.status(500).send("");
   }
 });
 
 router.put(routeMatcher, checkContentType, async (req, res) => {
-  LOG('PUT', req.path, req.body);
+  LOG("PUT", req.path, req.body);
   try {
     adapter.put(req.path, req.body);
-    res.status(202).send('');
+    res.status(202).send("");
   } catch {
-    res.status(500).send('');
+    res.status(500).send("");
   }
 });
 
 router.patch(routeMatcher, checkContentType, async (req, res) => {
-  LOG('PATCH', req.path, req.body);
+  LOG("PATCH", req.path, req.body);
   try {
-    await adapter.patch(req.path, req.body)
-    res.status(202).send('');
+    await adapter.patch(req.path, req.body);
+    res.status(202).send("");
   } catch {
-    res.status(500).send('');
+    res.status(500).send("");
   }
 });
 
 router.delete(routeMatcher, async (req, res) => {
-  LOG('DELETE', req.path);
+  LOG("DELETE", req.path);
   try {
     await adapter.delete(req.path);
-    res.status(204).send('');
+    res.status(204).send("");
   } catch {
-    res.status(500).send('');
+    res.status(500).send("");
   }
 });
 

@@ -2,11 +2,11 @@
   "name": "@cloud-cli/json",
   "version": "0.0.0",
   "license": "MIT",
-  "main": "./index.js",
+  "main": "./build/index.js",
   "type": "module",
   "scripts": {
     "ci": "npm i && npm run build",
-    "start": "node index.js",
+    "start": "node ./build/index.js",
     "build": "rm -rf build/ && tsc"
   },
   "dependencies": {
