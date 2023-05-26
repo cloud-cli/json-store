@@ -1,1 +1,1 @@
-require('./build');
+import './build/index.js';
