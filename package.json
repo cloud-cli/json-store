@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "ci": "npm run build",
     "start": "node index.js",
