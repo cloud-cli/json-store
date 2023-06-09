@@ -1,4 +1,4 @@
-# JSON store over a RESTful API
+## JSON store over a RESTful API
 
 ## How to run
 
