@@ -12,9 +12,9 @@ const pathReplace = (path: string) =>
 export class InMemoryAdapter implements Adapter {
   constructor(public content = {}) {}
 
-  get(path) {
+  async get(path) {
     if (path === "") {
-      return this.content;
+      return Object.keys(this.content);
     }
 
     const content = get(this.content, pathReplace(path));
@@ -24,18 +24,18 @@ export class InMemoryAdapter implements Adapter {
       : Promise.reject(notFound);
   }
 
-  post(path, data) {
+  async post(path, data) {
     set(this.content, pathReplace(path), data);
-    return Promise.resolve("");
+    return get(this.content, pathReplace(path));
   }
 
-  put(path, data) {
+  async put(path, data) {
     set(this.content, pathReplace(path), data);
-    return Promise.resolve("");
+    return get(this.content, pathReplace(path));
   }
 
-  patch(path, data) {
-    const value = get(this.content, pathReplace(path), data);
+  async patch(path, data) {
+    const value = get(this.content, pathReplace(path));
 
     if (value && typeof value === "object") {
       set(this.content, pathReplace(path), merge(value, data));
@@ -43,11 +43,12 @@ export class InMemoryAdapter implements Adapter {
       set(this.content, pathReplace(path), data);
     }
 
-    return Promise.resolve("");
+    return get(this.content, pathReplace(path));
   }
 
-  delete(path) {
+  async delete(path) {
     set(this.content, pathReplace(path), undefined);
-    return Promise.resolve("");
+
+    return "";
   }
 }

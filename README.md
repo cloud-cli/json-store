@@ -1,4 +1,39 @@
-## Usage
+# JSON store over a RESTful API
+
+## How to run
+
+```bash
+npm i && npm run build && npm start
+```
+
+## Using as an ESM Module
+
+```js
+import { Store } from 'https://server-address.io/store.js';
+
+// create a store on server
+const storeId = await Store.create();
+
+// consume a store
+const store = Store.get('__your_store_id__');
+const users = store.getResource('users');
+
+// add resource
+users.add({ uid: '123', name: 'Joe' });
+
+// remove it
+users.remove('123');
+
+// get one
+users.get('123');
+
+// list all
+users.list();
+
+//
+```
+
+## As an API
 
 Create a database:
 
@@ -40,12 +75,6 @@ The following command will delete the user:
 
 ```bash
 curl -XDELETE 'https://server-address.io/cdc0cafc15b857a2a61d292c0a30359091f57c9bc430f0785d0ed564f0b1fb9b/user/123'
-```
-
-## How to run
-
-```bash
-npm i && npm run build && npm start
 ```
 
 ## Env Variables

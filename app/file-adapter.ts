@@ -23,23 +23,24 @@ export class FileAdapter implements Adapter {
     return new InMemoryAdapter(content);
   }
 
-  get(key: string) {
+  async get(key: string) {
     const { hash, path } = splitHashAndPath(key);
     const buffer = this.createInMemoryAdapter(hash);
 
     return buffer.get(path);
   }
 
-  patch(key: string, data: any) {
+  async patch(key: string, data: any) {
     const { hash, path } = splitHashAndPath(key);
     const buffer = this.createInMemoryAdapter(hash);
 
-    const output = buffer.patch(path, data);
+    const output = await buffer.patch(path, data);
     this.writeContent(hash, buffer.content);
+
     return output;
   }
 
-  post(key: string, data: any) {
+  async post(key: string, data: any) {
     let { hash, path } = splitHashAndPath(key);
     const pathParts = path.split("/");
 
@@ -54,17 +55,19 @@ export class FileAdapter implements Adapter {
         .update(randomBytes(16))
         .digest("hex")
         .slice(0, 16);
+
       path += "/" + uid;
     }
 
     const buffer = this.createInMemoryAdapter(hash);
-    const output = buffer.post(path, data);
+    const output = await buffer.post(path, data);
 
     this.writeContent(hash, buffer.content);
+
     return output;
   }
 
-  put(key: string, data: any) {
+  async put(key: string, data: any) {
     const { hash, path } = splitHashAndPath(key);
     const [_, uid] = path.split("/");
 
@@ -74,17 +77,19 @@ export class FileAdapter implements Adapter {
 
     const buffer = this.createInMemoryAdapter(hash);
 
-    const output = buffer.put(path, data);
+    const output = await buffer.put(path, data);
     this.writeContent(hash, buffer.content);
+
     return output;
   }
 
-  delete(key: string) {
+  async delete(key: string) {
     const { hash, path } = splitHashAndPath(key);
     const buffer = this.createInMemoryAdapter(hash);
 
-    const output = buffer.delete(path);
+    const output = await buffer.delete(path);
     this.writeContent(hash, buffer.content);
+
     return output;
   }
 }
