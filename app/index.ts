@@ -13,10 +13,10 @@ const esModule = {
   headers: {
     "Cache-Control": "max-age=604800",
   },
-  content: readFileSync(join(process.cwd(), "store-esm.mjs"), "utf8"),
+  content: readFileSync(join(process.cwd(), "assets", "store-esm.mjs"), "utf8"),
 };
 
-const index = readFileSync(join(process.cwd(), "index.html"))
+const index = readFileSync(join(process.cwd(), "assets", "index.html"))
   .toString("utf8")
   .replace("%content%", readme);
 
