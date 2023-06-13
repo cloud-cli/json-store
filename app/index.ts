@@ -25,7 +25,12 @@ const app = express();
 
 app.use(bodyParser.json({ strict: false }));
 app.use(cors());
-app.get(/^\/store\.m?js/, (req, res) =>
+app.get("/store.js", (req, res) =>
+  res
+    .set(esModule.headers)
+    .send(esModule.content.replace("__API_URL__", req.get("x-forwarded-for")))
+);
+app.get("/store.mjs", (req, res) =>
   res
     .set(esModule.headers)
     .send(esModule.content.replace("__API_URL__", req.get("x-forwarded-for")))

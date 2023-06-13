@@ -1,11 +1,11 @@
 {
-  "name": "@cloud-cli/json",
+  "name": "@cloud-cli/json-store",
   "version": "0.0.0",
   "license": "MIT",
   "main": "./build/index.js",
   "type": "module",
   "scripts": {
-    "ci": "npm i && npm run build",
+    "ci": "npm i && npm run build && rm -r node_modules && npm i --omit=dev",
     "start": "node ./build/index.js",
     "build": "rm -rf build/ && tsc"
   },
