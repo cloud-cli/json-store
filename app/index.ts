@@ -12,6 +12,7 @@ const readme = readFileSync(join(process.cwd(), "README.md")).toString("utf8");
 const esModule = {
   headers: {
     "Cache-Control": "max-age=604800",
+    "Content-Type": "text/javascript; charset=utf-8",
   },
   content: readFileSync(join(process.cwd(), "assets", "store-esm.mjs"), "utf8"),
 };
