@@ -26,25 +26,22 @@
 
   <body>
     <article>
-      <header>
-        <h1>JSON store</h1>
-      </header>
       <main class="article">%content%</main>
     </article>
     <script type="module">
-      import { toHTML } from "https://markdown.jsfn.run/index.mjs";
+      import { toHTML } from 'https://markdown.jsfn.run/index.mjs';
 
       async function render() {
-        const main = document.querySelector("main");
+        const main = document.querySelector('main');
         const html = await toHTML(main.innerHTML.trim());
 
-        main.innerHTML = html.replace(/&amp;/g, "&");
+        main.innerHTML = html.replace(/&amp;/g, '&');
       }
 
-      if (document.readyState === "complete") {
+      if (document.readyState === 'complete') {
         render();
       } else {
-        window.addEventListener("DOMContentLoaded", render);
+        window.addEventListener('DOMContentLoaded', render);
       }
     </script>
   </body>

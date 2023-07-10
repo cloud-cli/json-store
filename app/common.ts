@@ -1,7 +1,6 @@
 import process from 'node:process';
 
-export const LOG = (...args: any[]) =>
-  process.env.DEBUG && console.log(`[${new Date().toISOString()}] `, ...args);
+export const LOG = (...args: any[]) => process.env.DEBUG && console.log(`[${new Date().toISOString()}] `, ...args);
 
 export function guessType(value) {
   const number = /^-?\d*\.?\d*$/;
@@ -38,7 +37,7 @@ export function splitHashAndPath(url: string) {
 }
 
 export function set(target, path, value) {
-  const segments = path.split(".");
+  const segments = path.split('.');
   const property = segments.pop();
 
   let segment: string;
@@ -53,3 +52,10 @@ export function set(target, path, value) {
 
   target[property] = value;
 }
+
+
+export const pathReplace = (path: string) =>
+  path
+    .split('/')
+    .join('.')
+    .replace(/^\.|\.$/g, '');

@@ -5,11 +5,14 @@
   "main": "./build/index.js",
   "type": "module",
   "scripts": {
-    "ci": "npm i && npm run build && rm -r node_modules && npm i --omit=dev",
+    "ci": "npm i && npm run test && rm -r node_modules && npm i --omit=dev",
     "start": "node ./build/index.js",
-    "build": "rm -rf build/ && tsc"
+    "build": "rm -rf build/ && tsc",
+    "test": "npm run build && npm run test:memory",
+    "test:memory": "STORAGE=memory node self-test.mjs"
   },
   "dependencies": {
+    "@cloud-cli/store": "^2.0.2",
     "cors": "^2.8.4",
     "express": "^4.17.1",
     "firebase": "^9.22.1",
@@ -17,7 +20,9 @@
   },
   "devDependencies": {
     "@cloud-cli/typescript-config": "^1.0.1",
+    "@types/better-sqlite3": "^7.6.4",
     "@types/node": "^20.2.4",
+    "better-sqlite3": "^8.4.0",
     "typescript": "^5.0.4"
   }
 }

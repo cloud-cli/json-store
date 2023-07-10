@@ -1,4 +1,4 @@
-## JSON store over a RESTful API
+# JSON store REST API
 
 ## How to run
 
@@ -79,10 +79,11 @@ curl -XDELETE 'https://server-address.io/cdc0cafc15b857a2a61d292c0a30359091f57c9
 
 ## Env Variables
 
-| Variable          | Description                                                           |
-| ----------------- | --------------------------------------------------------------------- |
-| PORT              | http port where the service runs                                      |
-| STORAGE           | Type of storage to use. See 'routes.ts' for available types.          |
-| DATA_DIR          | /path/to/folder where files will be stored if 'file' storage is used  |
-| FIREBASE_CONFIG   | JSON config for Firebase if 'firebase' storage is used                |
-| DEBUG             | Set to any truthy value to enable debug logging                       |
+| Variable        | Description                                                          |
+| --------------- | -------------------------------------------------------------------- |
+| PORT            | http port where the service runs                                     |
+| STORAGE         | Type of storage to use. See 'routes.ts' for available types.         |
+| DATA_DIR        | /path/to/folder where files will be stored if 'file' storage is used |
+| FIREBASE_CONFIG | JSON config for Firebase if 'firebase' storage is used               |
+| SQLITE_PATH     | Path to db file if 'sqlite' storage is used                          |
+| DEBUG           | Set to any truthy value to enable debug logging                      |

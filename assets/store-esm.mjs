@@ -1,20 +1,28 @@
-const baseUrl = "__API_URL__";
-const fetchOptions = { mode: "cors" };
-const fetchHeaders = { headers: { "content-type": "application/json" } };
-const asJson = (x) => x.json();
-const idIsMissingError = new Error("Id is missing");
+const baseUrl = globalThis.API_URL || '__API_URL__';
+const fetchOptions = { mode: 'cors' };
+const fetchHeaders = { headers: { 'content-type': 'application/json' } };
+const idIsMissingError = new Error('Id is missing');
 
+/**
+ * @class Store
+ * @description Representation of a store
+ */
 export class Store {
   /**
    * Creates a JSON store
-   * @returns {string} new store ID
+   * @returns {Promise<string>} new store ID
    */
-  static create() {
-    return fetch(new URL("/new", baseUrl), fetchOptions)
-      .then(asJson)
-      .then((store) => store.id);
+  static async create() {
+    const x = await fetch(new URL('/new', baseUrl), fetchOptions);
+    const store = await x.json();
+    return store.id;
   }
 
+  /**
+   * Get a store by id
+   * @param {string} id
+   * @returns {Store}
+   */
   static get(id) {
     return new Store(id);
   }
@@ -28,69 +36,123 @@ export class Store {
   }
 
   /**
-   *
+   * Get a list of all kinds of resources stored
+   * @returns {Promise<string[]>} names
+   */
+  async getResourceNames() {
+    const res = await fetch(new URL(`/${this.id}`, baseUrl));
+
+    if (res.ok) {
+      return res.json();
+    }
+
+    return [];
+  }
+
+  /**
+   * Get a resource by name
    * @param {string} name
    * @returns {Resource}
    */
   getResource(name) {
-    return new Resource(name);
+    return new Resource(this.id, name);
+  }
+
+  /**
+   * Remove an entire store
+   * @param {string} id
+   */
+  async remove() {
+    const x = await fetch(new URL('/' + this.id, baseUrl), { ...fetchOptions, method: 'DELETE' });
+    return x.ok;
   }
 }
 
+/**
+ * @class Resource
+ * @description Representation of a single kind of resource
+ */
 class Resource {
-  constructor(name) {
+  constructor(storeId, name) {
     if (!name) {
-      throw new Error("Resource name is missing");
+      throw new Error('Resource name is missing');
     }
 
     this.name = name;
-    this.resourceUrl = new URL(`/${this.name}/`, baseUrl);
+    this.resourceUrl = new URL(`/${storeId}/${this.name}/`, baseUrl).toString();
   }
 
   /**
    * List all content for this resource
    */
-  list() {
-    return fetch(this.resourceUrl, fetchOptions).then(asJson);
+  async list() {
+    const res = await fetch(this.resourceUrl, fetchOptions);
+
+    if (res.ok) {
+      return res.json();
+    }
+
+    return [];
   }
 
   /**
    * Get one item by ID
    * @param {string} [id] resource ID
    */
-  get(id = "") {
-    if (id) {
-      const url = new URL(id, this.resourceUrl);
-      return fetch(url, fetchOptions).then(asJson);
+  async get(id = '') {
+    if (!id) {
+      throw idIsMissingError;
     }
 
-    throw idIsMissingError;
+    const url = new URL(id, this.resourceUrl);
+    const x = await fetch(url, fetchOptions);
+
+    return x.json();
   }
 
   /**
    * Remove one item by ID
    * @param {string} [id] resource ID
    */
-  remove(id = "") {
-    if (id) {
-      const url = new URL(id, this.resourceUrl);
-      return fetch(url, { ...fetchOptions, method: "DELETE" }).then(asJson);
+  async remove(id = '') {
+    if (!id) {
+      throw idIsMissingError;
     }
 
-    throw idIsMissingError;
+    const url = new URL(id, this.resourceUrl);
+    const res = await fetch(url, { ...fetchOptions, method: 'DELETE' });
+
+    return res.ok;
   }
 
   /**
-   * Add one item
-   * @param {Object} payload resource to add
-   * @param {string} [uid] unique ID of this resource. If not provided, one will be generated
+   * Delete all items of this kind
    */
-  add(payload = {}) {
-    return fetch(this.resourceUrl, {
+  async removeAll() {
+    const url = new URL(this.resourceUrl);
+    const res = await fetch(url, { ...fetchOptions, method: 'DELETE' });
+
+    return res.ok;
+  }
+
+  /**
+   * Create/update one item
+   * @param {string} id unique ID of this resource
+   * @param {Object} payload resource to add
+   */
+  async set(id, payload = {}) {
+    const url = new URL(id, this.resourceUrl);
+    const res = await fetch(url, {
       ...fetchOptions,
       ...fetchHeaders,
-      method: "POST",
+      method: 'PUT',
       body: JSON.stringify(payload),
-    }).then(toJson);
+    });
+
+    if (res.ok) {
+      return true;
+    }
+
+    throw new Error(res.status);
   }
 }
