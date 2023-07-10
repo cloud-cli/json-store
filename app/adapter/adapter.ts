@@ -1,13 +1,8 @@
 const notFound = new Error('NOT_FOUND');
 
-const splitPath = (path: string) => {
-  const [hash, kind, ...rest] = path.replace(/^\/|\/$/, '').split('/');
-  return [hash, kind, rest.filter(Boolean)] as [string, string, string[]];
-};
-
 export abstract class Adapter {
   async write(path, data) {
-    const [hash, kind, rest] = splitPath(path);
+    const [hash, kind, rest] = this.splitPath(path);
 
     if (!hash) {
       throw notFound;
@@ -20,22 +15,8 @@ export abstract class Adapter {
     this.writeItem(hash, kind, rest, data);
   }
 
-  async remove(path: string) {
-    const [hash, kind, rest] = splitPath(path);
-
-    if (!kind) {
-      return this.deleteStore(hash);
-    }
-
-    if (!rest.length) {
-      return this.deleteKind(hash, kind);
-    }
-
-    return this.deleteItem(hash, kind, rest);
-  }
-
   async read(path: string) {
-    const [hash, kind, rest] = splitPath(path);
+    const [hash, kind, rest] = this.splitPath(path);
 
     if (!hash) {
       throw notFound;
@@ -61,6 +42,25 @@ export abstract class Adapter {
     }
 
     throw notFound;
+  }
+
+  async remove(path: string) {
+    const [hash, kind, rest] = this.splitPath(path);
+
+    if (!kind) {
+      return this.deleteStore(hash);
+    }
+
+    if (!rest.length) {
+      return this.deleteKind(hash, kind);
+    }
+
+    return this.deleteItem(hash, kind, rest);
+  }
+
+  protected splitPath(path: string) {
+    const [hash, kind, ...rest] = path.replace(/^\/|\/$/, '').split('/');
+    return [hash, kind, rest.filter(Boolean)] as [string, string, string[]];
   }
 
   protected abstract deleteItem(hash: string, kind: string, path: string[]): Promise<boolean>;

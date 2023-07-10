@@ -9,8 +9,7 @@ async function setup() {
   const md = await import('./assets/store-esm.mjs');
   const { Store } = md;
 
-  process.env.DATA_DIR = process.cwd();
-  process.env.SQLITE_PATH = process.cwd() + '/test.db';
+  process.env.SQLITE_PATH = './tmp/test.db';
   process.env.PORT = 1234;
   process.env.DEBUG = 1;
   const { server } = start(1234);

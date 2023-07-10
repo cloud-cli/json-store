@@ -5,7 +5,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import apiRoutes from './routes.js';
-import { LOG } from './common.js';
+import { LOG } from './log.js';
 
 export default function start(port: number) {
   const readme = readFileSync(join(process.cwd(), 'README.md')).toString('utf8');

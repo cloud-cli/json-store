@@ -1,7 +1,7 @@
 import express from 'express';
 import { randomBytes, createHash } from 'crypto';
-import { LOG } from './common.js';
-import { Adapter } from './adapter.js';
+import { LOG } from './log.js';
+import { Adapter } from './adapter/adapter.js';
 
 const storageAdapter = process.env.STORAGE || 'memory';
 let adapter: Adapter;
@@ -11,13 +11,14 @@ LOG('Using adapter:', storageAdapter);
 async function start() {
   switch (storageAdapter) {
     case 'memory':
-      const InMemoryAdapter = (await import('./in-memory-adapter.js')).InMemoryAdapter;
+      const InMemoryAdapter = (await import('./adapter/in-memory-adapter.js')).InMemoryAdapter;
       adapter = new InMemoryAdapter();
       break;
 
-    // case 'file':
-    //   adapter = new FileAdapter(process.env.DATA_DIR);
-    //   break;
+    case 'file':
+      const FileAdapter = (await import('./adapter/file-adapter.js')).FileAdapter;
+      adapter = new FileAdapter();
+      break;
 
     // case 'firebase':
     //   const FirebaseAdapter = (await import('./firebase-adapter.js')).FirebaseAdapter;
