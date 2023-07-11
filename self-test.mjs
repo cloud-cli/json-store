@@ -6,12 +6,11 @@ let timeout = 0;
 
 async function setup() {
   globalThis.API_URL = 'http://localhost:1234/';
-  const md = await import('./assets/store-esm.mjs');
-  const { Store } = md;
-
-  process.env.SQLITE_PATH = './tmp/test.db';
   process.env.PORT = 1234;
   process.env.DEBUG = 1;
+
+  const md = await import('./assets/store-esm.mjs');
+  const { Store } = md;
   const { server } = start(1234);
 
   timeout = setTimeout(() => server.close(), 30_000);
@@ -33,8 +32,8 @@ test('Store', async () => {
   const testResource = store.getResource('persons');
   assert.deepEqual(await testResource.list(), [], 'resource list not empty');
 
-  const alice = { id: 1, name: 'Alice', age: 22 };
-  const bob = { id: 2, name: 'Bob', age: 31 };
+  const alice = { documentId: 1, name: 'Alice', age: 22 };
+  const bob = { documentId: 2, name: 'Bob', age: 31 };
 
   // store two resources
   await testResource.set(1, alice);

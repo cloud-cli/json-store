@@ -4,34 +4,31 @@ import { LOG } from './log.js';
 import { Adapter } from './adapter/adapter.js';
 
 const storageAdapter = process.env.STORAGE || 'memory';
-let adapter: Adapter;
+let adapter$: Adapter;
 
 LOG('Using adapter:', storageAdapter);
 
-async function start() {
+async function getAdapter() {
+  if (adapter$) {
+    return adapter$;
+  }
+
   switch (storageAdapter) {
     case 'memory':
       const InMemoryAdapter = (await import('./adapter/in-memory-adapter.js')).InMemoryAdapter;
-      adapter = new InMemoryAdapter();
-      break;
+      return (adapter$ = new InMemoryAdapter());
 
     case 'file':
       const FileAdapter = (await import('./adapter/file-adapter.js')).FileAdapter;
-      adapter = new FileAdapter();
-      break;
+      return (adapter$ = new FileAdapter());
 
-    // case 'firebase':
-    //   const FirebaseAdapter = (await import('./firebase-adapter.js')).FirebaseAdapter;
-    //   adapter = new FirebaseAdapter(JSON.parse(process.env.FIREBASE_CONFIG));
-    //   break;
-    // case 'sqlite':
-    //   const SQLiteAdapter = (await import('./sqlite-adapter.js')).SQLiteAdapter;
-    //   adapter = new SQLiteAdapter();
-    //   break;
+    case 'sqlite':
+      const SQLiteAdapter = (await import('./adapter/sqlite-adapter.js')).SQLiteAdapter;
+      return (adapter$ = new SQLiteAdapter());
   }
-}
 
-start();
+  throw new Error('Invalid adapter type: ' + storageAdapter);
+}
 
 function checkContentType(req, res, next) {
   if (!req.is('application/json')) {
@@ -55,6 +52,7 @@ router.get(routeMatcher, async (req, res) => {
   LOG('GET', req.path);
 
   try {
+    const adapter = await getAdapter();
     const result = await adapter.read(req.path);
     res.status(200).send(result);
   } catch (error) {
@@ -67,6 +65,7 @@ router.put(routeMatcher, checkContentType, async (req, res) => {
   LOG('PUT', req.path, req.body);
 
   try {
+    const adapter = await getAdapter();
     await adapter.write(req.path, req.body);
     res.status(202).send('');
   } catch (error) {
@@ -77,7 +76,9 @@ router.put(routeMatcher, checkContentType, async (req, res) => {
 
 router.delete(routeMatcher, async (req, res) => {
   LOG('DELETE', req.path);
+
   try {
+    const adapter = await getAdapter();
     await adapter.remove(req.path);
     res.status(204).send('');
   } catch (error) {

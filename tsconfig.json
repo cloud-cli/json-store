@@ -2,7 +2,8 @@
   "extends": "@cloud-cli/typescript-config",
   "compilerOptions": {
     "outDir": "build",
-    "declaration": true
+    "declaration": true,
+    "experimentalDecorators": true
   },
   "include": ["app/**/*.ts"],
   "files": ["app/index.ts"]

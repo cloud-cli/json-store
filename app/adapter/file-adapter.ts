@@ -17,9 +17,8 @@ export class FileAdapter extends Adapter {
   }
 
   protected async deleteStore(...args): Promise<boolean> {
-    const filePath = join(this.dataFolder, args[0]);
+    const filePath = this.getFilePath(args[0]);
     unlinkSync(filePath);
-    console.log('delete store', args, filePath);
     return true;
   }
 
@@ -43,22 +42,25 @@ export class FileAdapter extends Adapter {
     return this.delegate('writeStore', args);
   }
 
-  protected delegate(method: string, args) {
+  protected async delegate(method: string, args) {
     const [hash] = args;
     const adapter = this.readContent(hash);
-    const result = adapter[method](...args);
-    this.writeContent(hash, adapter.content);
+    const result = await adapter[method](...args);
+
+    if (!method.startsWith('get')) {
+      this.writeContent(hash, adapter.content);
+    }
 
     return result;
   }
 
   protected writeContent(hash: string, content: any) {
-    const filePath = join(this.dataFolder, hash);
+    const filePath = this.getFilePath(hash);
     writeFileSync(filePath, JSON.stringify(content));
   }
 
   protected readContent(hash: string) {
-    const filePath = join(this.dataFolder, hash);
+    const filePath = this.getFilePath(hash);
     let content = {};
 
     if (existsSync(filePath)) {
@@ -66,5 +68,9 @@ export class FileAdapter extends Adapter {
     }
 
     return new InMemoryAdapter(content);
+  }
+
+  protected getFilePath(hash: string) {
+    return join(this.dataFolder, hash + '.json');
   }
 }

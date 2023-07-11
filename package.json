@@ -7,16 +7,17 @@
   "scripts": {
     "ci": "npm i && npm run test && rm -r node_modules && npm i --omit=dev",
     "start": "node ./build/index.js",
-    "build": "rm -rf build/ tmp; tsc",
-    "test": "npm run build && mkdir tmp && npm run test:memory && npm run test:file",
+    "build": "rm -rf build/ tmp; npm run ts",
+    "ts": "tsc",
+    "test": "npm run build && mkdir tmp && npm run test:memory && npm run test:file && npm run test:sqlite",
     "test:memory": "STORAGE=memory node self-test.mjs",
+    "test:sqlite": "STORAGE=sqlite SQLITE_PATH=./tmp/test.db node self-test.mjs",
     "test:file": "STORAGE=file FILE_PATH=./tmp node self-test.mjs"
   },
   "dependencies": {
     "@cloud-cli/store": "^2.0.2",
     "cors": "^2.8.4",
     "express": "^4.17.1",
-    "firebase": "^9.22.1",
     "lodash-es": "^4.17.19"
   },
   "devDependencies": {
