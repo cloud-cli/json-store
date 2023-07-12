@@ -12,30 +12,30 @@ class Entry extends Resource {
 }
 
 export class SQLiteAdapter extends Adapter {
-  protected async deleteItem(hash: string, kind: string, path: string[]): Promise<boolean> {
+  protected async deleteItem(store: string, kind: string, path: string[]): Promise<boolean> {
     const [id] = path;
     const result = this.db
       .prepare('DELETE from entry WHERE store = ? AND kind = ? AND documentId = ?')
-      .run([hash, kind, id]);
+      .run([store, kind, id]);
 
     return result.changes > 0;
   }
 
-  protected async deleteKind(hash: string, kind: string): Promise<boolean> {
-    const result = this.db.prepare('DELETE from entry WHERE store = ? AND kind = ?').run([hash, kind]);
+  protected async deleteKind(store: string, kind: string): Promise<boolean> {
+    const result = this.db.prepare('DELETE from entry WHERE store = ? AND kind = ?').run([store, kind]);
     return result.changes > 0;
   }
 
-  protected async deleteStore(hash: string): Promise<boolean> {
-    const result = this.db.prepare('DELETE from entry WHERE store = ?').run([hash]);
+  protected async deleteStore(store: string): Promise<boolean> {
+    const result = this.db.prepare('DELETE from entry WHERE store = ?').run([store]);
     return result.changes > 0;
   }
 
-  protected async getItem(hash: string, kind: string, rest: string[]): Promise<any> {
+  protected async getItem(store: string, kind: string, rest: string[]): Promise<any> {
     const [id] = rest;
     const found = await Resource.find(
       Entry,
-      new Query<Entry>().where('documentId').is(id).where('kind').is(kind).where('store').is(hash),
+      new Query<Entry>().where('documentId').is(id).where('kind').is(kind).where('store').is(store),
     );
 
     if (found?.length) {
@@ -45,32 +45,30 @@ export class SQLiteAdapter extends Adapter {
     return null;
   }
 
-  protected getKind(hash: string, kind: string) {
-    console.log('get store', hash);
-    return Resource.find(Entry, new Query<Entry>().where('kind').is(kind).where('store').is(hash));
+  protected getKind(store: string, kind: string) {
+    console.log('get store', store);
+    return Resource.find(Entry, new Query<Entry>().where('kind').is(kind).where('store').is(store));
   }
 
-  protected async getStore(hash: string) {
-    console.log('get store', hash);
+  protected async getStore(store: string) {
     const statement = this.db.prepare('SELECT DISTINCT kind AS resource from entry WHERE store = ?');
-    const list = statement.all([hash]);
-    console.log(list);
+    const list = statement.all([store]);
     return list.map((n: any) => String(n.resource));
   }
 
-  protected async writeItem(hash: any, kind: any, rest: any, content: any): Promise<void> {
+  protected async writeItem(store: string, kind: string, rest: string[], content: any): Promise<void> {
     const documentId = rest.length ? rest[0] : randomUUID();
-    const entry = new Entry({ hash, kind, documentId, content });
+    const entry = new Entry({ store, kind, documentId, content });
     await entry.save();
   }
 
-  protected async writeStore(hash: any, data: any): Promise<void> {
+  protected async writeStore(store: string, data: any): Promise<void> {
     const entries = Object.entries(data);
 
     for (const entry of entries) {
       const [kind, content] = entry;
       const documentId = randomUUID();
-      const next = new Entry({ hash, kind, documentId, content });
+      const next = new Entry({ store, kind, documentId, content });
       await next.save();
     }
   }
