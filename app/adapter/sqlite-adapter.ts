@@ -39,15 +39,15 @@ export class SQLiteAdapter extends Adapter {
     );
 
     if (found?.length) {
-      return found[0];
+      return found[0].content;
     }
 
     return null;
   }
 
-  protected getKind(store: string, kind: string) {
-    console.log('get store', store);
-    return Resource.find(Entry, new Query<Entry>().where('kind').is(kind).where('store').is(store));
+  protected async getKind(store: string, kind: string) {
+    const all = await Resource.find(Entry, new Query<Entry>().where('kind').is(kind).where('store').is(store));
+    return all.map(item => item.content);
   }
 
   protected async getStore(store: string) {
