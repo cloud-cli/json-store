@@ -13,7 +13,7 @@ async function setup() {
   const { Store } = md;
   const { server } = start(1234);
 
-  timeout = setTimeout(() => server.close(), 30_000);
+  timeout = setTimeout(() => { server.close(); process.exit(1); }, 30_000);
   return { Store, server };
 }
 
@@ -63,5 +63,5 @@ test('Store', async () => {
   assert.deepEqual(await store.getResourceNames(), [], 'resource names not empty');
 
   server.close();
-  clearTimeout(timeout);
+  process.exit(0);
 });

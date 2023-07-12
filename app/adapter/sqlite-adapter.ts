@@ -82,6 +82,9 @@ export class SQLiteAdapter extends Adapter {
     this.db = driver.db;
 
     Resource.use(driver);
-    Resource.create(Entry);
+  }
+
+  async init() {
+    await Resource.create(Entry);
   }
 }

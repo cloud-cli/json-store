@@ -1,6 +1,8 @@
-const notFound = new Error('NOT_FOUND');
+const notFound = new Error("NOT_FOUND");
 
 export abstract class Adapter {
+  async init() {}
+
   async write(path, data) {
     const [hash, kind, rest] = this.splitPath(path);
 
@@ -59,18 +61,31 @@ export abstract class Adapter {
   }
 
   protected splitPath(path: string) {
-    const [hash, kind, ...rest] = path.replace(/^\/|\/$/, '').split('/');
+    const [hash, kind, ...rest] = path.replace(/^\/|\/$/, "").split("/");
     return [hash, kind, rest.filter(Boolean)] as [string, string, string[]];
   }
 
-  protected abstract deleteItem(hash: string, kind: string, path: string[]): Promise<boolean>;
+  protected abstract deleteItem(
+    hash: string,
+    kind: string,
+    path: string[]
+  ): Promise<boolean>;
   protected abstract deleteKind(hash: string, kind: string): Promise<boolean>;
   protected abstract deleteStore(hash: string): Promise<boolean>;
 
-  protected abstract getItem(hash: string, kind: string, rest: string[]): Promise<any>;
+  protected abstract getItem(
+    hash: string,
+    kind: string,
+    rest: string[]
+  ): Promise<any>;
   protected abstract getKind(hash: string, kind: string): Promise<any[]>;
   protected abstract getStore(hash: string): Promise<string[]>;
 
-  protected abstract writeItem(hash: any, kind: any, rest: any, data: any): Promise<void>;
+  protected abstract writeItem(
+    hash: any,
+    kind: any,
+    rest: any,
+    data: any
+  ): Promise<void>;
   protected abstract writeStore(hash: any, data: any): Promise<void>;
 }

@@ -16,18 +16,25 @@ async function getAdapter() {
   switch (storageAdapter) {
     case 'memory':
       const InMemoryAdapter = (await import('./adapter/in-memory-adapter.js')).InMemoryAdapter;
-      return (adapter$ = new InMemoryAdapter());
+      adapter$ = new InMemoryAdapter();
+      break;
 
     case 'file':
       const FileAdapter = (await import('./adapter/file-adapter.js')).FileAdapter;
-      return (adapter$ = new FileAdapter());
+      adapter$ = new FileAdapter();
+      break;
 
     case 'sqlite':
       const SQLiteAdapter = (await import('./adapter/sqlite-adapter.js')).SQLiteAdapter;
-      return (adapter$ = new SQLiteAdapter());
+      adapter$ = new SQLiteAdapter();
+      break;
+
+    default:
+      throw new Error('Invalid adapter type: ' + storageAdapter);
   }
 
-  throw new Error('Invalid adapter type: ' + storageAdapter);
+  await adapter$.init();
+  return adapter$;
 }
 
 function checkContentType(req, res, next) {
