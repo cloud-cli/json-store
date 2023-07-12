@@ -18,13 +18,13 @@
     "@cloud-cli/store": "^2.0.2",
     "cors": "^2.8.4",
     "express": "^4.17.1",
-    "lodash-es": "^4.17.19"
+    "lodash-es": "^4.17.19",
+    "better-sqlite3": "^8.4.0"
   },
   "devDependencies": {
     "@cloud-cli/typescript-config": "^1.0.1",
     "@types/better-sqlite3": "^7.6.4",
     "@types/node": "^20.2.4",
-    "better-sqlite3": "^8.4.0",
     "typescript": "^5.0.4"
   }
 }
