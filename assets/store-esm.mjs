@@ -1,4 +1,4 @@
-const baseUrl = globalThis.API_URL || '__API_URL__';
+const baseUrl = globalThis.API_URL || 'https://__API_URL__';
 const fetchOptions = { mode: 'cors' };
 const fetchHeaders = { headers: { 'content-type': 'application/json' } };
 const idIsMissingError = new Error('Id is missing');
