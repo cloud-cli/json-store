@@ -49,7 +49,7 @@ const router = express.Router();
 const routeMatcher = /^\/[0-9a-f]{64}/;
 
 router.get('/new', (req, res) => {
-  const host = req.get('x-forwarded-for');
+  const host = req.get('x-forwarded-for') || 'localhost';
   const seed = randomBytes(64);
   const id = createHash('sha256').update(seed).digest('hex');
 
