@@ -48,11 +48,15 @@ function checkContentType(req, res, next) {
 const router = express.Router();
 const routeMatcher = /^\/[0-9a-f]{64}/;
 
-router.get('/new', (_, res) => {
+router.get('/new', (req, res) => {
+  const host = req.get('x-forwarded-for');
   const seed = randomBytes(64);
   const id = createHash('sha256').update(seed).digest('hex');
 
-  return res.send({ id });
+  return res.send({
+    id,
+    url: new URL('/' + id, 'https:// ' + host).toString()
+  });
 });
 
 router.get(routeMatcher, async (req, res) => {
