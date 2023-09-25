@@ -29,7 +29,7 @@ export default function start(port: number) {
   app.get('/store.mjs', (req, res) =>
     res.set(esModule.headers).send(esModule.content.replace('__API_URL__', req.get('x-forwarded-for'))),
   );
-  app.get('/', (req, res) => res.send(index.replace(/https:\/\/server-address.io/, req.get('x-forwarded-for'))));
+  app.get('/', (req, res) => res.send(index.replace(/https:\/\/server-address.io/g, req.get('x-forwarded-for'))));
   app.get('/favicon.ico', (_, res) => res.status(404).send(null));
   app.use(apiRoutes);
   app.use((_, res) => res.status(404).send('Not found'));

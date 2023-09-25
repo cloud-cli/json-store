@@ -1,9 +1,17 @@
-# JSON store REST API
+# JSON store
 
 ## How to run
 
-```bash
+From source:
+
+```sh
 npm i && npm run build && npm start
+```
+
+Via Docker:
+
+```sh
+docker run --rm -d -p 80:1234 -e PORT=1234 ghcr.io/cloud-cli/json-store:latest
 ```
 
 ## Using as an ESM Module
