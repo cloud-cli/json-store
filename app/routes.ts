@@ -52,7 +52,7 @@ router.get('/new', (req, res) => {
   const host = req.get('x-forwarded-for') || 'localhost';
   const seed = randomBytes(64);
   const id = createHash('sha256').update(seed).digest('hex');
-  const url = new URL('/' + id, 'https:// ' + host).toString();
+  const url = new URL('/' + id, 'https://' + host).toString();
 
   return res.send({ id, url });
 });
