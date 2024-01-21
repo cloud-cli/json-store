@@ -17,7 +17,7 @@ docker run --rm -d -p 80:1234 -e PORT=1234 ghcr.io/cloud-cli/json-store:latest
 ## Using as an ESM Module
 
 ```js
-import { Store } from 'https://server-address.io/store.js';
+import { Store } from 'https://server-address.io/index.mjs';
 
 // create a store on server
 const storeId = await Store.create();
