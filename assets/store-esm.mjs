@@ -107,6 +107,10 @@ class Resource {
     const url = new URL(id, this.resourceUrl);
     const x = await fetch(url, fetchOptions);
 
+    if (!res.ok) {
+      throw new Error(x.statusText);
+    }
+
     return x.json();
   }
 
