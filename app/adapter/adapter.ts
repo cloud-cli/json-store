@@ -1,10 +1,12 @@
 const notFound = new Error("NOT_FOUND");
+import { LOG } from '../log';
 
 export abstract class Adapter {
   async init() {}
 
   async write(path, data) {
     const [hash, kind, rest] = this.splitPath(path);
+    LOG('write', hash, kind, rest);
 
     if (!hash) {
       throw notFound;
@@ -19,6 +21,7 @@ export abstract class Adapter {
 
   async read(path: string) {
     const [hash, kind, rest] = this.splitPath(path);
+    LOG('read', hash, kind, rest);
 
     if (!hash) {
       throw notFound;
@@ -48,6 +51,7 @@ export abstract class Adapter {
 
   async remove(path: string) {
     const [hash, kind, rest] = this.splitPath(path);
+    LOG('remove', hash, kind, rest);
 
     if (!kind) {
       return this.deleteStore(hash);
