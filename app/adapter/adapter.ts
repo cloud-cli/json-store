@@ -1,5 +1,5 @@
 const notFound = new Error("NOT_FOUND");
-import { LOG } from '../log';
+import { LOG } from '../log.js';
 
 export abstract class Adapter {
   async init() {}

@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto';
 import { Adapter } from './adapter.js';
 import { Model, Property, Query, Resource, SQLiteDriver } from '@cloud-cli/store';
 import * as SQLite from 'better-sqlite3';
-import { LOG } from '../log';
+import { LOG } from '../log.js';
 
 @Model('entry')
 class Entry extends Resource {
