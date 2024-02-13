@@ -58,6 +58,11 @@ export class SQLiteAdapter extends Adapter {
 
   protected async writeItem(store: string, kind: string, rest: string[], content: any): Promise<void> {
     const documentId = rest.length ? rest[0] : randomUUID();
+    
+    if (rest[0]) {
+      await this.deleteItem(store, kind, rest);
+    }
+    
     const entry = new Entry({ store, kind, documentId, content });
     await entry.save();
   }
