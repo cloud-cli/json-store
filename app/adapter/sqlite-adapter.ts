@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 import { Adapter } from './adapter.js';
 import { Model, Property, Query, Resource, SQLiteDriver } from '@cloud-cli/store';
 import * as SQLite from 'better-sqlite3';
+import { LOG } from '../log';
 
 @Model('entry')
 class Entry extends Resource {
@@ -37,6 +38,8 @@ export class SQLiteAdapter extends Adapter {
       Entry,
       new Query<Entry>().where('documentId').is(id).where('kind').is(kind).where('store').is(store),
     );
+
+    LOG('getItem', found);
 
     if (found?.length) {
       return found[0].content;
