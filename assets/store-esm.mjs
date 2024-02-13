@@ -105,13 +105,13 @@ class Resource {
     }
 
     const url = new URL(id, this.resourceUrl);
-    const x = await fetch(url, fetchOptions);
+    const res = await fetch(url, fetchOptions);
 
     if (!res.ok) {
-      throw new Error(x.statusText);
+      throw new Error(res.statusText);
     }
 
-    return x.json();
+    return res.json();
   }
 
   /**
