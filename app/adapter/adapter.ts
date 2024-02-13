@@ -32,7 +32,7 @@ export abstract class Adapter {
     }
 
     if (!rest.length) {
-      const items = this.getKind(hash, kind);
+      const items = await this.getKind(hash, kind);
 
       if (items) {
         return items;
@@ -41,7 +41,7 @@ export abstract class Adapter {
       throw notFound;
     }
 
-    const item = this.getItem(hash, kind, rest);
+    const item = await this.getItem(hash, kind, rest);
     if (item) {
       return item;
     }

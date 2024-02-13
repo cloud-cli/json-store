@@ -39,8 +39,6 @@ export class SQLiteAdapter extends Adapter {
       new Query<Entry>().where('documentId').is(id).where('kind').is(kind).where('store').is(store),
     );
 
-    LOG('getItem', found);
-
     if (found?.length) {
       return found[0].content;
     }
