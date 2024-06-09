@@ -97,9 +97,9 @@ class Resource {
 
   /**
    * Get one item by ID
-   * @param {string} [id] resource ID
+   * @param {string} id resource ID
    */
-  async get(id = '') {
+  async get(id) {
     if (!id) {
       throw idIsMissingError;
     }
@@ -115,10 +115,29 @@ class Resource {
   }
 
   /**
-   * Remove one item by ID
-   * @param {string} [id] resource ID
+   * Check if item exists
+   * @param {string} id resource ID
    */
-  async remove(id = '') {
+  async has(id = "") {
+    if (!id) {
+      throw idIsMissingError;
+    }
+
+    const url = new URL(id, this.resourceUrl);
+    const res = await fetch(url, { ...fetchOptions, method: "HEAD", headers: {'connection': 'close'} });
+
+    if (!res.ok) {
+      throw new Error(res.status);
+    }
+
+    return res.status === 200
+  }
+
+  /**
+   * Remove one item by ID
+   * @param {string} id resource ID
+   */
+  async remove(id) {
     if (!id) {
       throw idIsMissingError;
     }
