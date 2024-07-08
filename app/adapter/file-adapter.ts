@@ -30,6 +30,10 @@ export class FileAdapter extends Adapter {
     return this.delegate('getKind', args);
   }
 
+  protected getKindIndex(...args): Promise<any[]> {
+    return this.delegate('getKindIndex', args);
+  }
+
   protected getStore(...args): Promise<string[]> {
     return this.delegate('getStore', args);
   }

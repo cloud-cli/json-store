@@ -15,6 +15,10 @@ export class InMemoryAdapter extends Adapter {
     return Object.values(this.content[hash]?.[kind] || {});
   }
 
+  protected async getKindIndex(hash: string, kind: string) {
+    return this.content[hash]?.[kind] ?? {};
+  }
+
   protected async getStore(hash: string) {
     return Object.keys(this.content[hash] || {});
   }

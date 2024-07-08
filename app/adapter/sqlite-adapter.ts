@@ -7,7 +7,7 @@ import * as SQLite from 'better-sqlite3';
 class Entry extends Resource {
   @Property(String) store: string;
   @Property(String) kind: string;
-  @Property(String) documentId: number;
+  @Property(String) documentId: string;
   @Property(Object) content: any;
 }
 
@@ -45,6 +45,11 @@ export class SQLiteAdapter extends Adapter {
     return null;
   }
 
+  protected async getKindIndex(store: string, kind: string) {
+    const all = await Resource.find(Entry, new Query<Entry>().where('kind').is(kind).where('store').is(store));
+    return Object.fromEntries(all.map(item => [item.documentId, item]));
+  }
+
   protected async getKind(store: string, kind: string) {
     const all = await Resource.find(Entry, new Query<Entry>().where('kind').is(kind).where('store').is(store));
     return all.map(item => item.content);
@@ -58,11 +63,11 @@ export class SQLiteAdapter extends Adapter {
 
   protected async writeItem(store: string, kind: string, rest: string[], content: any): Promise<void> {
     const documentId = rest.length ? rest[0] : randomUUID();
-    
+
     if (rest[0]) {
       await this.deleteItem(store, kind, rest);
     }
-    
+
     const entry = new Entry({ store, kind, documentId, content });
     await entry.save();
   }

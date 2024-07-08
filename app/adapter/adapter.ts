@@ -32,7 +32,9 @@ export abstract class Adapter {
     }
 
     if (!rest.length) {
-      const items = await this.getKind(hash, kind);
+      const items = kind.endsWith(':{}')
+        ? await this.getKindIndex(hash, kind.replace(':{}', ''))
+        : await this.getKind(hash, kind);
 
       if (items) {
         return items;
@@ -83,6 +85,7 @@ export abstract class Adapter {
     rest: string[]
   ): Promise<any>;
   protected abstract getKind(hash: string, kind: string): Promise<any[]>;
+  protected abstract getKindIndex(hash: string, kind: string): Promise<Record<string, any>>;
   protected abstract getStore(hash: string): Promise<string[]>;
 
   protected abstract writeItem(
