@@ -32,8 +32,8 @@ export abstract class Adapter {
     }
 
     if (!rest.length) {
-      const items = kind.endsWith(':{}')
-        ? await this.getKindIndex(hash, kind.replace(':{}', ''))
+      const items = kind.endsWith('::')
+        ? await this.getKindIndex(hash, kind.replace('::', ''))
         : await this.getKind(hash, kind);
 
       if (items) {

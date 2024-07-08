@@ -28,7 +28,7 @@ export default function start(port: number) {
   app.get('/store.js', onEsModule);
   app.get('/store.mjs', onEsModule);
   app.get('/index.mjs', onEsModule);
-  app.get('/', (req, res) => res.send(index.replace(/https:\/\/server-address.io/g, req.get('x-forwarded-for'))));
+  app.get('/', (req, res) => res.send(index.replace(/https:\/\/server-address.io/g, 'https://' + req.get('x-forwarded-for'))));
   app.get('/favicon.ico', (_, res) => res.status(404).send(null));
   app.use(apiRoutes);
   app.use((_, res) => res.status(404).send('Not found'));

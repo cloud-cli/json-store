@@ -19,8 +19,10 @@ docker run --rm -d -p 80:1234 -e PORT=1234 ghcr.io/cloud-cli/json-store:latest
 ```js
 import { Store } from 'https://server-address.io/index.mjs';
 
-// create a store on server
+// create a store (first time)
 const storeId = await Store.create();
+
+// -- later --
 
 // consume a store
 const store = Store.get('__your_store_id__');
@@ -72,7 +74,7 @@ curl 'https://server-address.io/cdc0cafc15b857a2a61d292c0a30359091f57c9bc430f078
 The following command will delete the user:
 
 ```bash
-curl -XDELETE 'https://server-address.io/cdc0cafc15b857a2a61d292c0a30359091f57c9bc430f0785d0ed564f0b1fb9b/user/123'
+curl -X DELETE 'https://server-address.io/cdc0cafc15b857a2a61d292c0a30359091f57c9bc430f0785d0ed564f0b1fb9b/user/123'
 ```
 
 ## Env Variables
