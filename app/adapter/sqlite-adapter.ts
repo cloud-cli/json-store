@@ -47,7 +47,7 @@ export class SQLiteAdapter extends Adapter {
 
   protected async getKindIndex(store: string, kind: string) {
     const all = await Resource.find(Entry, new Query<Entry>().where('kind').is(kind).where('store').is(store));
-    return Object.fromEntries(all.map(item => [item.documentId, item]));
+    return Object.fromEntries(all.map(item => [item.documentId, item.content]));
   }
 
   protected async getKind(store: string, kind: string) {
