@@ -2,7 +2,7 @@
   "name": "@cloud-cli/json-store",
   "version": "0.0.0",
   "license": "MIT",
-  "main": "./build/index.js",
+  "main": "./build/app/index.js",
   "type": "module",
   "scripts": {
     "ci": "npm i && npm run build && rm -r node_modules && npm i --omit=dev",
