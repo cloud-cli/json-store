@@ -4,7 +4,7 @@ import { LOG } from '../log.js';
 export abstract class Adapter {
   async init() {}
 
-  async write(path, data) {
+  async write(path: string, data: any) {
     const [hash, kind, rest] = this.splitPath(path);
     LOG('write', hash, kind, rest);
 

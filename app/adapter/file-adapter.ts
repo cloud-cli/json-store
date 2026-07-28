@@ -4,7 +4,7 @@ import { Adapter } from './adapter.js';
 import { InMemoryAdapter } from './in-memory-adapter.js';
 
 export class FileAdapter extends Adapter {
-  constructor(private dataFolder: string = process.env.FILE_PATH) {
+  constructor(private dataFolder: string = process.env.FILE_PATH!) {
     super();
   }
 

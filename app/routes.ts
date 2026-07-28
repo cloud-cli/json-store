@@ -63,10 +63,13 @@ router.get(routeMatcher, async (req, res) => {
   try {
     const adapter = await getAdapter();
     const result = await adapter.read(req.path);
-    res.status(200).set('content-type', 'application/json').send(req.query.pretty ? JSON.stringify(result, null, 2) : result);
+    res
+      .status(200)
+      .set('content-type', 'application/json')
+      .send(req.query.pretty ? JSON.stringify(result, null, 2) : result);
   } catch (error) {
     LOG(error);
-    res.status(error.message === 'NOT_FOUND' ? 404 : 400).send('');
+    res.status(String(error).includes('NOT_FOUND') ? 404 : 400).send('');
   }
 });
 
@@ -79,7 +82,7 @@ router.put(routeMatcher, checkContentType, async (req, res) => {
     res.status(202).send('');
   } catch (error) {
     LOG(error);
-    res.status(error.message === 'BAD_REQUEST' ? 400 : 500).send('');
+    res.status(String(error).includes('BAD_REQUEST') ? 400 : 500).send('');
   }
 });
 

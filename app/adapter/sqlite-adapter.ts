@@ -5,10 +5,10 @@ import * as SQLite from 'better-sqlite3';
 
 @Model('entry')
 class Entry extends Resource {
-  @Property(String) store: string;
-  @Property(String) kind: string;
-  @Property(String) documentId: string;
-  @Property(Object) content: any;
+  @Property(String) store: string = '';
+  @Property(String) kind: string = '';
+  @Property(String) documentId: string = '';
+  @Property(Object) content: any = null;
 }
 
 export class SQLiteAdapter extends Adapter {
@@ -47,12 +47,12 @@ export class SQLiteAdapter extends Adapter {
 
   protected async getKindIndex(store: string, kind: string) {
     const all = await Resource.find(Entry, new Query<Entry>().where('kind').is(kind).where('store').is(store));
-    return Object.fromEntries(all.map(item => [item.documentId, item.content]));
+    return Object.fromEntries(all.map((item) => [item.documentId, item.content]));
   }
 
   protected async getKind(store: string, kind: string) {
     const all = await Resource.find(Entry, new Query<Entry>().where('kind').is(kind).where('store').is(store));
-    return all.map(item => item.content);
+    return all.map((item) => item.content);
   }
 
   protected async getStore(store: string) {
@@ -84,7 +84,7 @@ export class SQLiteAdapter extends Adapter {
   }
 
   protected db: SQLite.Database;
-  constructor(dbPath: string = process.env.SQLITE_PATH) {
+  constructor(dbPath: string = process.env.SQLITE_PATH!) {
     super();
     const driver = new SQLiteDriver(dbPath);
     this.db = driver.db;
