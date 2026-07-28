@@ -5,10 +5,10 @@ import * as SQLite from 'better-sqlite3';
 
 @Model('entry')
 class Entry extends Resource {
-  @Property(String) store: string = '';
-  @Property(String) kind: string = '';
-  @Property(String) documentId: string = '';
-  @Property(Object) content: any = null;
+  @Property(String) store?: string;
+  @Property(String) kind?: string;
+  @Property(String) documentId?: string;
+  @Property(Object) content?: any;
 }
 
 export class SQLiteAdapter extends Adapter {
