@@ -76,8 +76,6 @@ export class SQLiteAdapter extends Adapter {
     }
 
     const entry = new Entry({ store, kind, documentId, content });
-    console.log('entry', { store, kind, documentId, content });
-    console.log('entry', entry);
     await entry.save();
   }
 
