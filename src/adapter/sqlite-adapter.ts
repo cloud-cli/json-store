@@ -13,6 +13,7 @@ class Entry extends Resource {
   @Property(Object) content: any;
 
   constructor(p: Partial<Entry>) {
+    super(p);
     Object.assign(this, p);
   }
 }
