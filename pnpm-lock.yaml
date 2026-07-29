@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@cloud-cli/store':
-        specifier: ^2.0.6
-        version: 2.0.6(better-sqlite3@13.0.1)
+        specifier: ^2.0.7
+        version: 2.0.7(better-sqlite3@13.0.2)
       better-sqlite3:
-        specifier: ^13.0.1
-        version: 13.0.1
+        specifier: ^13.0.2
+        version: 13.0.2
       cors:
         specifier: ^2.8.6
         version: 2.8.6
@@ -42,8 +42,8 @@ importers:
 
 packages:
 
-  '@cloud-cli/store@2.0.6':
-    resolution: {integrity: sha512-ShOz6GgM1z6ROGBa7gfhobHyNXPOuTE5gQW8fLlcnPBlSVIlJ7OVNmUrx/nJEefMB8IMUDKyjtxBmVvND2KnoA==}
+  '@cloud-cli/store@2.0.7':
+    resolution: {integrity: sha512-c/WQhQLhOdWjfT/Z3lOCTKU1kv4YofvqVn5eIXradyLmldRJDRnPIjijodHPIX7qlx81Vx3XAj0eVbOTuQR0Ag==}
     peerDependencies:
       better-sqlite3: ^13.0.1
 
@@ -186,8 +186,8 @@ packages:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
     engines: {node: '>= 0.6'}
 
-  better-sqlite3@13.0.1:
-    resolution: {integrity: sha512-LYpmOXdkpQYf4wmlxkdzW01XGlOXNIbjLg45yNkh0FQ4814VbK9PdOFmhZpYbej+EZtR/i3FDdhEG98HqZdgnA==}
+  better-sqlite3@13.0.2:
+    resolution: {integrity: sha512-jW6oufeDhXZaiX9Lw5A+oerVClx4iFrI6uDj1zu7SqUAjak9vbJvA0NEcKLNxHiQHb6kYCoFzzXYV0YOauhV3g==}
     engines: {node: '>=22'}
 
   body-parser@2.3.0:
@@ -469,9 +469,9 @@ packages:
 
 snapshots:
 
-  '@cloud-cli/store@2.0.6(better-sqlite3@13.0.1)':
+  '@cloud-cli/store@2.0.7(better-sqlite3@13.0.2)':
     dependencies:
-      better-sqlite3: 13.0.1
+      better-sqlite3: 13.0.2
 
   '@cloud-cli/typescript-config@1.0.1': {}
 
@@ -557,7 +557,7 @@ snapshots:
       mime-types: 3.0.2
       negotiator: 1.0.0
 
-  better-sqlite3@13.0.1:
+  better-sqlite3@13.0.2:
     dependencies:
       node-addon-api: 8.9.0
 
