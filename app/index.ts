@@ -34,7 +34,7 @@ export default function start(port: number) {
   app.use((_, res) => res.status(404).send('Not found'));
 
   const server = app.listen(port);
-  LOG(`Started at port ${port}`);
+  LOG(`Started at port ${port} using ${process.env.STORAGE}`);
 
   return { app, server };
 }

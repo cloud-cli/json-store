@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@cloud-cli/store':
-        specifier: ^2.0.7
-        version: 2.0.7(better-sqlite3@13.0.2)
+        specifier: ^2.0.8
+        version: 2.0.8(better-sqlite3@13.0.2)
       better-sqlite3:
         specifier: ^13.0.2
         version: 13.0.2
@@ -45,8 +45,8 @@ importers:
 
 packages:
 
-  '@cloud-cli/store@2.0.7':
-    resolution: {integrity: sha512-c/WQhQLhOdWjfT/Z3lOCTKU1kv4YofvqVn5eIXradyLmldRJDRnPIjijodHPIX7qlx81Vx3XAj0eVbOTuQR0Ag==}
+  '@cloud-cli/store@2.0.8':
+    resolution: {integrity: sha512-fK7v1//89lj1k6yQAs54erhPmORZiyxZri8AnHJy1CO0b6bwTvIlAHwBBT2QoBMIbB5MPwA2gKX+tTBF4J/N7w==}
     peerDependencies:
       better-sqlite3: ^13.0.1
 
@@ -472,7 +472,7 @@ packages:
 
 snapshots:
 
-  '@cloud-cli/store@2.0.7(better-sqlite3@13.0.2)':
+  '@cloud-cli/store@2.0.8(better-sqlite3@13.0.2)':
     dependencies:
       better-sqlite3: 13.0.2
 
