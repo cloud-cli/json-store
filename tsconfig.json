@@ -9,12 +9,13 @@
     "noUnusedParameters": true,
     "noImplicitAny": false,
     "allowJs": true,
-    "rootDir": "./app",
+    "rootDir": "src",
     "outDir": "./build/",
     "declaration": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false
   },
   "include": ["src/app/**/*.ts"],
-  "exclude": ["app/**"],
-  "files": ["app/index.ts"]
+  "exclude": ["src/**"],
+  "files": ["src/index.ts"]
 }

@@ -6,7 +6,7 @@ export abstract class Adapter {
 
   async write(path: string, data: any) {
     const [hash, kind, rest] = this.splitPath(path);
-    LOG('write', hash, kind, rest);
+    LOG('write', hash, kind, rest, data);
 
     if (!hash) {
       throw notFound;

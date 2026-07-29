@@ -2,13 +2,19 @@ import { randomUUID } from 'node:crypto';
 import { Adapter } from './adapter.js';
 import { Model, Property, Query, Resource, SQLiteDriver } from '@cloud-cli/store';
 import * as SQLite from 'better-sqlite3';
+import { mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
 
 @Model('entry')
 class Entry extends Resource {
-  @Property(String) store?: string;
-  @Property(String) kind?: string;
-  @Property(String) documentId?: string;
-  @Property(Object) content?: any;
+  @Property(String) store: string;
+  @Property(String) kind: string;
+  @Property(String) documentId: string;
+  @Property(Object) content: any;
+
+  constructor(p: Partial<Entry>) {
+    Object.assign(this, p);
+  }
 }
 
 export class SQLiteAdapter extends Adapter {
@@ -69,6 +75,8 @@ export class SQLiteAdapter extends Adapter {
     }
 
     const entry = new Entry({ store, kind, documentId, content });
+    console.log('entry', { store, kind, documentId, content });
+    console.log('entry', entry);
     await entry.save();
   }
 
@@ -85,6 +93,7 @@ export class SQLiteAdapter extends Adapter {
 
   protected db: SQLite.Database;
   constructor(dbPath: string = process.env.SQLITE_PATH!) {
+    mkdirSync(dirname(dbPath), { recursive: true });
     super();
     const driver = new SQLiteDriver(dbPath);
     this.db = driver.db;
