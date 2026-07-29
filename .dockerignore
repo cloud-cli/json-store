@@ -1,6 +1,6 @@
 *
 !build/
 !package.json
-!node_modules
+!*.yaml
 !README.md
 !assets/

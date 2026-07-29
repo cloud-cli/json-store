@@ -8,8 +8,6 @@ async function setup() {
   globalThis.API_URL = 'http://localhost:1234/';
   process.env.PORT = 1234;
   process.env.DEBUG = 1;
-  process.env.SQLITE_PATH = './self-test.sqlite3';
-  process.env.STORAGE = 'sqlite';
 
   const md = await import('./assets/store-esm.mjs');
   const { Store } = md;
