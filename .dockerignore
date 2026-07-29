@@ -1,6 +1,4 @@
-*
-!build/
-!package.json
-!*.yaml
-!README.md
-!assets/
+build/
+node_modules/
+.github/
+tmp/
