@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { Adapter } from './adapter.js';
 import { Model, Property, Query, Resource, SQLiteDriver } from '@cloud-cli/store';
 import * as SQLite from 'better-sqlite3';

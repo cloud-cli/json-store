@@ -39,7 +39,5 @@ export default function start(port: number) {
   return { app, server };
 }
 
-const port = process.env.PORT;
-if (port) {
-  start(Number(port));
-}
+const port = process.env.PORT || 0;
+start(port)
